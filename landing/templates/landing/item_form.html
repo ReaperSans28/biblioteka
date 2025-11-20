@@ -1,0 +1,17 @@
+{% extends 'landing/base.html' %}
+{% block content %}
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form class="row" method="post" enctype="multipart/form-data">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">
+                    Создать
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}

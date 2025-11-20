@@ -1,16 +1,22 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, CreateView
 
+from landing.forms import ItemsForm
 from landing.models import Item
 
 
-def index(request):
-    return render(request, template_name="index.html")
+class HomeView(TemplateView):
+    template_name = "landing/index.html"
+
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except Exception as e:
+            return HttpResponse(f"Error: {str(e)}", status=500)
 
 
-def post_item(request):
-    if request.method == 'POST':
-        name = request.POST.get("name")
-        description = request.POST.get("description")
-        Item.objects.create(name=name, description=description)
-        return redirect('index')
-    return render(request, 'post.html')
+class ItemsCreateView(CreateView):
+    model = Item
+    form_class = ItemsForm
+    success_url = reverse_lazy("landing:home")
