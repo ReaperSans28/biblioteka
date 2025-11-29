@@ -1,0 +1,41 @@
+{% extends 'landing/base.html' %}
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="mb-4 text-center">Регистрация</h2>
+
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>
+                                    {% if field != '__all__' %}
+                                        {{ field|title }}:
+                                    {% endif %}
+                                    {{ error }}
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Автоматическая генерация всех полей формы -->
+                {{ form.as_p }}
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                </div>
+                <div class="text-center mt-3">
+                    <p>Уже есть аккаунт? <a href="{% url 'users:login' %}">Войти</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
